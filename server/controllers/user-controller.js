@@ -10,7 +10,7 @@ module.exports = {
       $or: [{ _id: user ? user._id : params.id }, { username: params.username }],
     });
 
-    if (!foundUser) {
+    if (!foundUser) { 
       return res.status(400).json({ message: 'Cannot find a user with this id!' });
     }
 
