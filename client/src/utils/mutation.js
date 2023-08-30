@@ -23,3 +23,22 @@ mutation addUser($username: String!, $email: String!, $password: String!) {
     }
 }`;
 
+export const SAVE_BOOK = gql`
+mutation saveBook($bookId: String!, $author: [String], $description: String, $title: String, $image: String, $link: String) {
+    saveBook(author: $author, title: $title, description: $description, bookId: $bookId, image: $image, link: $link) {
+            _id
+            username
+        }
+    }
+}`;
+
+export const REMOVE_BOOK = gql`
+muation removeBook($bookId: String!) {
+    removeBook(bookId: $bookId) {
+        _id
+    }
+}
+`;
+
+
+
