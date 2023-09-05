@@ -6,7 +6,7 @@ const resolvers = {
     Query: {
   // get a single user by either their id or their username
   me: async (params, args, context) => {
-    return User.findOne({ _id: params.user._id })
+    return User.find()
   },
     },
     Mutation: {
@@ -30,6 +30,7 @@ const resolvers = {
     
     addUser: async (parent, {username, email, password},  context) => {
               const newUser = await User.create({ username, email, password });
+              console.log(newUser);
               return newUser;
           },
     saveBook: async (parent, args, context) => {
