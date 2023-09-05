@@ -23,16 +23,16 @@ const SavedBooks = () => {
   // use this to determine if `useEffect()` hook needs to run again
   const userDataLength = Object.keys(userData).length;
 
-  const [ user ] = useQuery(GET_ME, {
+  const [user] = useQuery(GET_ME, {
     variables: { _id: Auth.loggedIn() ? Auth.getToken() : null }
   });
-  const  [ removeBook ]  = useMutation(REMOVE_BOOK);
+  const  [removeBook, { error } ] = useMutation(REMOVE_BOOK);
   
   // create function that accepts the book's mongo _id value as param and deletes the book from the database
   
   const handleDeleteBook = async (bookId)  => {
     const token = Auth.loggedIn() ? Auth.getToken() : null;
-   
+    
   
     if (!token) {
       return false;

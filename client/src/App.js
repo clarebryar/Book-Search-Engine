@@ -3,9 +3,20 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import SearchBooks from './pages/SearchBooks';
 import SavedBooks from './pages/SavedBooks';
 import Navbar from './components/Navbar';
+import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
+
+const client = new ApolloClient({
+  // uri: 'http://localhost:3001/graphql',
+  uri: '/graphql',
+  // 
+  cache: new InMemoryCache(),
+});
+
 
 function App() {
   return (
+    <ApolloProvider client={client}>
+    <div className="flex-column justify-flex-start min-100-vh">
     <Router>
       <>
         <Navbar />
@@ -24,7 +35,10 @@ function App() {
           />
         </Routes>
       </>
+      
     </Router>
+    </div>
+    </ApolloProvider>
   );
 }
 
