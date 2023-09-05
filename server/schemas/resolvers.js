@@ -6,7 +6,7 @@ const resolvers = {
     Query: {
   // get a single user by either their id or their username
   me: async (params, args, context) => {
-    return User.find()
+    return User.findOne({ _id: context.user_id}).select('-__v -password');
   },
     },
     Mutation: {
@@ -30,8 +30,9 @@ const resolvers = {
     
     addUser: async (parent, {username, email, password},  context) => {
               const newUser = await User.create({ username, email, password });
+              const token = signToken(newUser);
               console.log(newUser);
-              return newUser;
+              return {token, newUser } ;
           },
     saveBook: async (parent, args, context) => {
      
