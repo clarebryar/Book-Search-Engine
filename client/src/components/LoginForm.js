@@ -34,7 +34,7 @@ const LoginForm = () => {
 
    
       console.log(response);
-      Auth.loginUser(response.token);
+      Auth.login(response.token);
     } catch (err) {
       console.error(err);
       setShowAlert(true);

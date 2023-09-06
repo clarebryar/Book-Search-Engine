@@ -6,7 +6,7 @@ const resolvers = {
     Query: {
   // get a single user by either their id or their username
   me: async (params, args, context) => {
-    return User.findOne({ _id: context.user_id}).select('-__v -password');
+    return User.findOne({ _id: context.user_id}).select('-__v -password'); 
   },
     },
     Mutation: {
@@ -34,15 +34,17 @@ const resolvers = {
               console.log(newUser);
               return {token, newUser } ;
           },
-    saveBook: async (parent, args, context) => {
-     
+    saveBook: async (parent, { bookId }, context) => {
+     if (context.user) {
+
         const updatedUser = await User.findOneAndUpdate(
           { _id: context.user._id },
-          { $addToSet: { savedBooks: args } },
+          { $addToSet: { savedBooks: bookId } },
           { new: true, runValidators: true }
         );
         return updatedUser;
-    
+        }
+        throw new AuthenticationError('log in first!');
     },
     removeBook: async (parent, args, context) => {
         const updatedUser = await User.findOneAndUpdate(
