@@ -18,13 +18,13 @@ import { GET_ME } from '../utils/queries';
 import { REMOVE_BOOK } from '../utils/mutation';
 
 const SavedBooks = () => {
-  const [userData, setUserData] = useState({});
+ 
 
   // use this to determine if `useEffect()` hook needs to run again
   // const userDataLength = Object.keys(userData).length;
 
   const { user } = useQuery(GET_ME);
-
+  const userData  = user?.savedBooks || []
   const  [removeBook, { error } ] = useMutation(REMOVE_BOOK);
   
   // create function that accepts the book's mongo _id value as param and deletes the book from the database

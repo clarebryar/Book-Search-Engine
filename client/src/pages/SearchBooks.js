@@ -9,7 +9,7 @@ import {
 } from 'react-bootstrap';
 
 import Auth from '../utils/auth';
-import { saveBook, searchGoogleBooks } from '../utils/API';
+import { searchGoogleBooks } from '../utils/API';
 import { saveBookIds, getSavedBookIds } from '../utils/localStorage';
 
 import { useMutation } from '@apollo/client';
@@ -28,9 +28,9 @@ const SearchBooks = () => {
   // learn more here: https://reactjs.org/docs/hooks-effect.html#effects-with-cleanup
 const [ saveBook, { data, error} ] = useMutation(SAVE_BOOK);
 
-  useEffect(() => {
-    return () => saveBookIds(savedBookIds);
-  });
+  // useEffect(() => {
+  //   return () => saveBookIds(savedBookIds);
+  // });
 
   // create method to search for books and set state on form submit
   const handleFormSubmit = async (event) => {
@@ -79,12 +79,14 @@ const [ saveBook, { data, error} ] = useMutation(SAVE_BOOK);
     try {
            
     // if book successfully saves to  user's account, save book id to state
-      const { data }  = saveBook({ variables: { bookId, token} });
+      const { data }  = saveBook({ variables: { bookId: savedBookIds} });
+
+      setSavedBookIds(data);
 
       console.log(data);
       console.log(savedBookIds);
     } catch (err) {
-      console.error(err);
+      console.log("searchBook.js error: ", err);
     }
   };
 

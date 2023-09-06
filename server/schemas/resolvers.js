@@ -5,13 +5,19 @@ const { signToken } = require('../utils/auth');
 const resolvers = {
     Query: {
   // get a single user by either their id or their username
+  everyone: async () => {
+    return User.find();
+  },
   me: async (params, args, context) => {
-    return User.findOne({ _id: context.user_id}).select('-__v -password'); 
+    if (context.user) {
+      return User.findOne({ _id: context.user._id }).populate('savedBooks');
+    }
+    throw new AuthenticationError('You need to be logged in!'); 
   },
     },
     Mutation: {
-        login: async (parent, { username, password }, context) => {
-            const user = await User.findOne({ username });
+        login: async (parent, { email, password }, context) => {
+            const user = await User.findOne({ email: email, password: password });
       
             if (!user) {
               throw new AuthenticationError('No user found with that username');
@@ -35,16 +41,16 @@ const resolvers = {
               return {token, newUser } ;
           },
     saveBook: async (parent, { bookId }, context) => {
-     if (context.user) {
+   if (context.user) {
 
-        const updatedUser = await User.findOneAndUpdate(
+    return User.findOneAndUpdate(
           { _id: context.user._id },
           { $addToSet: { savedBooks: bookId } },
           { new: true, runValidators: true }
         );
-        return updatedUser;
+       
         }
-        throw new AuthenticationError('log in first!');
+       
     },
     removeBook: async (parent, args, context) => {
         const updatedUser = await User.findOneAndUpdate(
