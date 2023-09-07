@@ -79,11 +79,11 @@ const [ saveBook, { data, error} ] = useMutation(SAVE_BOOK);
     try {
            
     // if book successfully saves to  user's account, save book id to state
-      const { data }  = saveBook({ variables: { bookId: savedBookIds} });
+      const { data }  = saveBook({ variables: { bookId: bookToSave.bookId }});
 
-      setSavedBookIds(data);
-
+     setSavedBookIds([...savedBookIds, bookToSave.bookId]);
       console.log(data);
+      console.log(bookToSave);
       console.log(savedBookIds);
     } catch (err) {
       console.log("searchBook.js error: ", err);
