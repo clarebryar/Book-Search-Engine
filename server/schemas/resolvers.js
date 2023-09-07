@@ -43,13 +43,13 @@ const resolvers = {
     saveBook: async (parent, { bookData }, context) => {
    const updatedUser = await User.findOneAndUpdate(
           { _id: context.user._id },
-          { $addToSet: { savedBooks: bookData } },
+          { [Book]: {$addToSet: { authors: bookData.authors, description: bookData.description, bookId: bookData.bookId, title: bookData.title, image: bookData.image, link: bookData.link} } },
           { new: true }
         );
        return updatedUser;
-        }
+        },
        
-    },
+    
     removeBook: async (parent, args, context) => {
         const updatedUser = await User.findOneAndUpdate(
           { $pull: { savedBooks: { bookId: args.bookId } }},
@@ -58,7 +58,7 @@ const resolvers = {
         return updatedUser;
     }
     }
-}
+};
 
 
 module.exports = resolvers ;
