@@ -9,6 +9,14 @@ type User {
     bookCount: Int
     savedBooks: [Book]
 }
+input bookData {
+    authors: [String]
+    description: String!
+    bookId: String!
+    image: String
+    link: String
+    title: String!
+}
 type Book {
     bookId: String
     authors: [String]
@@ -30,7 +38,7 @@ type Mutation {
 
     addUser(username: String!, email: String!, password: String!): Auth
 
-    saveBook(bookId: [String]): User
+    saveBook(input: bookData): User
      
     removeBook(bookId: String): User
 }
