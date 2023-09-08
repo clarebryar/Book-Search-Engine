@@ -41,9 +41,9 @@ const resolvers = {
               return {token, newUser } ;
           },
     saveBook: async (parent, { bookData }, context) => {
-   const updatedUser = await User.findOneAndUpdate(
+   const updatedUser = await User.findByIdAndUpdate(
           { _id: context.user._id },
-          { [Book]: {$addToSet: { authors: bookData.authors, description: bookData.description, bookId: bookData.bookId, title: bookData.title, image: bookData.image, link: bookData.link} } },
+          { $addToSet: { savedBooks: bookData  }},
           { new: true }
         );
        return updatedUser;
