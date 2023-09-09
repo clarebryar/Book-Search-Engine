@@ -74,7 +74,7 @@ const [ saveBook ] = useMutation(SAVE_BOOK);
       description: book.description,
       image: book.imageLinks?.thumbnail || '',
     }))
-
+    
     // get token
     const token = Auth.loggedIn() ? Auth.getToken() : null;
 
@@ -85,7 +85,7 @@ const [ saveBook ] = useMutation(SAVE_BOOK);
     try {
            
     // if book successfully saves to  user's account, save book id to state
-      const { data }  = await saveBook({ variables: { bookData, token } });
+      const { data }  = await saveBook({ variables: { bookData:{ ...bookData} }});
 
      setSavedBookIds([ data ]);
       console.log(data);

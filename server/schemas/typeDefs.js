@@ -11,10 +11,9 @@ type User {
 }
 input BookInput {
     authors: [String]
-    description: String!
+    description: String
     bookId: String!
     image: String
-    link: String
     title: String!
 }
 type Book {
@@ -23,7 +22,6 @@ type Book {
     description: String
     title: String
     image: String
-    link: String
 }
 type Auth {
     token: ID!

@@ -24,10 +24,27 @@ const SavedBooks = () => {
   // use this to determine if `useEffect()` hook needs to run again
   // const userDataLength = Object.keys(userData).length;
 
-  const { user } = useQuery(GET_ME);
-  const userData  = user?.savedBooks || []
+  const {loading, data}= useQuery(GET_ME);
+
+  const userData  = data?.me || []
+  
   const  [removeBook, { error } ] = useMutation(REMOVE_BOOK);
   
+    // const userData = userBooks.map(book => ({
+    //   bookId: book.id,
+    //   authors: book.authors || ['No author to display'],
+    //   title: book.title,
+    //   description: book.description,
+    //   image: book.imageLinks?.thumbnail || '',
+    // }))
+  
+    console.log(data);
+    console.log(userData);
+    // console.log(userBooks)
+  
+
+  
+
   // create function that accepts the book's mongo _id value as param and deletes the book from the database
   
   const handleDeleteBook = async (bookId)  => {
@@ -50,14 +67,12 @@ const SavedBooks = () => {
   }
 
   // if data isn't here yet, say so
-  if (!user) {
+  if (!data) {
   return <h2>LOADING...</h2>
   }
  
   
-  if (Auth.loggedIn() && Auth.getProfile().data._id === user._id) {
-  
-  
+ 
   return (
     <>
       <div fluid className="text-light bg-dark p-5">
@@ -93,7 +108,7 @@ const SavedBooks = () => {
       </Container>
     </>
   );
-}
+
 };  
 
 export default SavedBooks;
