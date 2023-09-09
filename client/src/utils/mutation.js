@@ -27,7 +27,6 @@ export const SAVE_BOOK = gql`
 mutation saveBook($bookData: BookInput!) {
     saveBook(bookData: $bookData) {
         bookData {
-            _id
             link
             image
             description
@@ -35,7 +34,7 @@ mutation saveBook($bookData: BookInput!) {
             authors
             title
           }
-       
+          _id       
     }
 }`;
 
