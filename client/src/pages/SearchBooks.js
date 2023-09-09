@@ -67,7 +67,13 @@ const [ saveBook ] = useMutation(SAVE_BOOK);
   // create function to handle saving a book to our database
   const handleSaveBook = async (bookId) => {
     // find the book in `searchedBooks` s  tate by the matching id
-    const bookToSave = searchedBooks.find((book) => book.bookId === bookId);
+    const bookData = searchedBooks.find((book) =>  ({
+      bookId: book.id,
+      authors: book.authors || ['No author to display'],
+      title: book.title,
+      description: book.description,
+      image: book.imageLinks?.thumbnail || '',
+    }))
 
     // get token
     const token = Auth.loggedIn() ? Auth.getToken() : null;
@@ -79,11 +85,11 @@ const [ saveBook ] = useMutation(SAVE_BOOK);
     try {
            
     // if book successfully saves to  user's account, save book id to state
-      const { data }  = saveBook({ variables: { bookData: bookToSave, token }});
+      const { data }  = await saveBook({ variables: { bookData, token } });
 
-     setSavedBookIds([ bookToSave ]);
+     setSavedBookIds([ data ]);
       console.log(data);
-      console.log(bookToSave);
+      console.log(bookData);
       console.log(savedBookIds);
     } catch (err) {
       console.log("searchBook.js error: ", err);

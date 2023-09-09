@@ -7,7 +7,7 @@ query me {
             username
             email
             savedBooks {
-               bookId
+               savedBooks
             }
     
     }
